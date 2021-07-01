@@ -1,7 +1,25 @@
+import axios from 'axios'
 import React, { Component } from 'react'
 
 export default class Search extends Component {
-  handleSearch = () => {}
+  handleSearch = () => {
+    const { value: keyword } = this.keywordElement
+    this.props.updateAppState({ isFirst: false, isLoading: true })
+    axios
+      .get(`https://api.github.com/search/users?q=${keyword}`)
+      .then(res => {
+        this.props.updateAppState({
+          isLoading: false,
+          usersList: res.data.items
+        })
+      })
+      .catch(err => {
+        this.props.updateAppState({
+          isLoading: false,
+          err: err.message
+        })
+      })
+  }
 
   render() {
     return (
@@ -12,6 +30,7 @@ export default class Search extends Component {
             type="text"
             className="form-control"
             placeholder="Search Username"
+            ref={c => (this.keywordElement = c)}
           />
           <div className="input-group-append">
             <button

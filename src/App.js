@@ -4,11 +4,22 @@ import List from './components/List'
 import './App.scss'
 
 export default class App extends Component {
+  state = {
+    usersList: [],
+    isFirst: true,
+    isLoading: false,
+    err: ''
+  }
+
+  updateAppState = state => {
+    this.setState(state)
+  }
+
   render() {
     return (
       <div className="container">
-        <Search />
-        <List />
+        <Search updateAppState={this.updateAppState} />
+        <List {...this.state} />
       </div>
     )
   }
