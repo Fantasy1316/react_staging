@@ -1,28 +1,61 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import PubSub from 'pubsub-js'
 
 export default class Search extends Component {
-  handleSearch = () => {
+  handleSearch = async () => {
     const { value: keyword } = this.keywordElement
     PubSub.publish('SEARCH_INFO', {
       isFirst: false,
       isLoading: true
     })
-    axios
-      .get(`https://api.github.com/search/users?q=${keyword}`)
-      .then(res => {
+    // 链式调用
+    // fetch(`https://api.github.com/search/users?q=${keyword}`)
+    //   .then(response => {
+    //     console.log('Connect Success: ', response)
+    //     return response.json()
+    //   })
+    //   .then(response => {
+    //     console.log('Request Success: ', response)
+    //     console.log(response.errors)
+    //     if (response.errors) {
+    //       return Promise.reject(response.message)
+    //     } else {
+    //       PubSub.publish('SEARCH_INFO', {
+    //         isLoading: false,
+    //         err: '',
+    //         usersList: response.items
+    //       })
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log('Fetch Error: ', error)
+    //     PubSub.publish('SEARCH_INFO', {
+    //       isLoading: false,
+    //       err: error
+    //     })
+    //   })
+
+    // async await 调用
+    try {
+      const response = await fetch(
+        `https://api.github.com/search/users?q=${keyword}`
+      )
+      const data = await response.json()
+      if (data.errors) {
+        throw new Error(data.message)
+      } else {
         PubSub.publish('SEARCH_INFO', {
           isLoading: false,
-          usersList: res.data.items
+          err: '',
+          usersList: data.items
         })
+      }
+    } catch (error) {
+      PubSub.publish('SEARCH_INFO', {
+        isLoading: false,
+        err: error.message
       })
-      .catch(err => {
-        PubSub.publish('SEARCH_INFO', {
-          isLoading: false,
-          err: err.message
-        })
-      })
+    }
   }
 
   render() {
