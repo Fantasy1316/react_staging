@@ -56,7 +56,6 @@ class Count extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { defaultValue, options } = this.state
     return (
       <div className="count">
