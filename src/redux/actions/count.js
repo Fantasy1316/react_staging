@@ -2,7 +2,7 @@
  * @descript 生成count的action方法
  */
 
-import { PLUS, REDURCE } from './constant'
+import { PLUS, REDURCE } from '../constant'
 
 // 同步的action （一般的对象）
 export const createPlusAction = data => ({ type: PLUS, data })

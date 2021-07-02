@@ -5,7 +5,7 @@ import {
   createPlusAction,
   createReduceAction,
   createPlusAsyncAction
-} from '../../redux/action_creator'
+} from '../../redux/actions/count'
 
 const { Option } = Select
 

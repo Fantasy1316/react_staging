@@ -4,7 +4,7 @@
  * @param {object} action 动作对象
  */
 
-import { PLUS, REDURCE } from './constant'
+import { PLUS, REDURCE } from '../constant'
 
 // 初始化默认状态
 const initState = 0
