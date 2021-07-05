@@ -4,3 +4,4 @@
 
 export const PLUS = 'plus'
 export const REDURCE = 'redurce'
+export const ADD_PERSON = 'add_person'

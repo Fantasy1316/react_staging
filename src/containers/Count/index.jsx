@@ -59,7 +59,10 @@ class Count extends Component {
     const { defaultValue, options } = this.state
     return (
       <div className="count">
-        <h2>Current Count: {this.props.count}</h2>
+        <h2>
+          Current Count: {this.props.count}, Persons Count:{' '}
+          {this.props.personCount}
+        </h2>
         <Space>
           <Select
             defaultValue={defaultValue}
@@ -94,8 +97,11 @@ class Count extends Component {
   }
 }
 
-export default connect(state => ({ count: state }), {
-  plus: createPlusAction,
-  reduce: createReduceAction,
-  plusAsync: createPlusAsyncAction
-})(Count)
+export default connect(
+  state => ({ count: state.count, personCount: state.persons.length }),
+  {
+    plus: createPlusAction,
+    reduce: createReduceAction,
+    plusAsync: createPlusAsyncAction
+  }
+)(Count)
